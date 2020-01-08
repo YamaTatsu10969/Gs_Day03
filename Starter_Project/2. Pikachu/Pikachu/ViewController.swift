@@ -35,11 +35,12 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         //特徴点を表示
         sceneView.autoenablesDefaultLighting = true
         
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action:
-            #selector(tapped))
-        self.sceneView.addGestureRecognizer(tapGestureRecognizer)
+        // ①タップした時の反応を追加する
         
-        configureAudioPlayer()
+        
+        // ②オーディオプレイヤーをセットする
+        
+        
         
         // Set the scene to the view
         sceneView.scene = scene
@@ -85,6 +86,8 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         return pikaNode
     }
     
+    
+    
     @objc func tapped(sender: UITapGestureRecognizer) {
         // タップされた位置を取得
         let tapLocation = sender.location(in: sceneView)
@@ -92,7 +95,6 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         // 第二引数　existingPlaneUsingExtent -> 検出された平面内
         let hitTest = sceneView.hitTest(tapLocation,
                                         types: .existingPlaneUsingExtent)
-        
         if !hitTest.isEmpty {
             // タップした箇所が平面のヒットテストに通ったらアンカーをシーンに追加
             print("ヒットテストOK")
@@ -100,16 +102,6 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             sceneView.session.add(anchor: anchor)
         } else {
             print("ヒットテストNG")
-        }
-    }
-    
-    func configureAudioPlayer(){
-        guard let soundData = NSDataAsset(name: "Pikaaaa")?.data else { return }
-        do {
-            self.audioPlayer = try AVAudioPlayer(data: soundData, fileTypeHint: "mp3")
-            self.audioPlayer.prepareToPlay()
-        } catch {
-            print("💬 Error")
         }
     }
     
