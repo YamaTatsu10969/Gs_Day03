@@ -27,9 +27,10 @@ class ViewController: UIViewController {
         
         //① シーンの作成
         let scene = SCNScene()
-        
+        //②　ノードの作成
+        let node = createTextNode()
         //④ 作ったノードをルートノードに追加して紐付ける
-        scene.rootNode.addChildNode(textNode)
+        scene.rootNode.addChildNode(node)
         
         // シーンビューに作ったシーンデータを入れる
         sceneView.scene = scene
@@ -67,44 +68,7 @@ class ViewController: UIViewController {
         return textNode
     }
     
-    /*
-     クロージャーというものを使えば関数を使わずにインスタンス化できる
-    　https://qiita.com/narukun/items/b1b6ec856aee42767694
-     
-     変数とか引数に処理を直接代入できる機能で
-     {}括弧内の処理を実行して自己完結してくれる
-     
-     略さずに書くと
-     { (引数) -> 戻り値の型 in
-        処理
-     }
-     
-     例えばこんな感じ
-     var count = { (num1: Int, num2: Int) -> Int in
-        return num1 + num2
-     }
-     */
-    
-    lazy var textNode: SCNNode = {
-        //②-1 ジオメトリ(形状)の作成
-        let textGeometry = SCNText(string: "Hello World", extrusionDepth: 1)
-        //②-2 ジオメトリ(形状)の設定（マテリアル）
-        textGeometry.firstMaterial?.diffuse.contents = UIColor.red //ジオメトリのマテリアル設定で「赤」を指定してあげる
-        
-        //③-1 ジオメトリを格納するノードを作成
-        let textNode = SCNNode(geometry: textGeometry)
-        //③-2 ジオメトリを格納するノードの設定
-        textNode.position = SCNVector3(0, 0, -0.5) //ノードの座標を調整
-        textNode.scale = SCNVector3(0.02 , 0.02, 0.02) //ノードの大きさを調整
-        
-        
-        return textNode
-    }()
-    //この閉じ括弧がないと
-    //クロージャー自体を入れようとしてしまうのでクロージャーの戻り値を入れるため()をつける
-    //省略する場合は呼び出し側に()をつける
-    
-    lazy var boxNode: SCNNode = {
+    func createBoxNode() -> SCNNode {
         //②-1 ジオメトリ(形状)の作成
         let boxGeometry = SCNBox(width: 0.1, height: 0.1, length: 0.1, chamferRadius: 0) //立方体
         //②-2 ジオメトリ(形状)の設定（マテリアル）
@@ -118,9 +82,9 @@ class ViewController: UIViewController {
         boxNode.position = SCNVector3(0, 0, -0.5) //ノードの座標を調整
         
         return boxNode
-    }()
+    }
     
-    lazy var sphereNode: SCNNode = {
+    func createSphereNode() -> SCNNode {
         //②-1 ジオメトリ(形状)の作成
         let sphereGeometry = SCNSphere(radius: 0.1) //半径を設定
         //②-2 ジオメトリ(形状)の設定（マテリアル）
@@ -137,7 +101,7 @@ class ViewController: UIViewController {
         sphereNode.runAction(repeatAction)//回転の繰り返しをRUN
 
         return sphereNode
-    }()
+    }
     
 }
 
