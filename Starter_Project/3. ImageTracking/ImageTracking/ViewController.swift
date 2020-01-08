@@ -35,18 +35,11 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        // Create a session configuration
-        //let configuration = ARWorldTrackingConfiguration()
-        let configuration = ARImageTrackingConfiguration()
+        // ①　認識したい画像をセットアップする
         
-        let trackImages = ARReferenceImage.referenceImages(inGroupNamed: "AR Resources",
-                                                                  bundle: nil)!
-        print("💬 Set Track Image....")
-        configuration.trackingImages = trackImages
-        
-        // Run the view's session
-        sceneView.session.run(configuration)
     }
+    
+    
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -55,18 +48,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         sceneView.session.pause()
     }
     
-    @objc func tappedZombie(_ sender: UITapGestureRecognizer){
-        guard let sceneView = sender.view as? ARSCNView else { return }
-        let touchLocation = sender.location(in: sceneView)
-        let hitResults = sceneView.hitTest(touchLocation, options: [:])
-        
-        // タップ時にオブジェクトがあれば実行
-        if !hitResults.isEmpty {
-            self.hapticGenerator.notificationOccurred(.success)
-            print("💬 Tapped Zombie....")
-        }
-    }
-
+    
     // MARK: - ARSCNViewDelegate
     
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
